@@ -2,7 +2,7 @@ version: 2
 references:
   node_container: &node_container
     docker:
-      - image: circleci/node:14
+      - image: cnadiminti/dynamodb-local:latest
 
 jobs:
   build:
@@ -16,12 +16,13 @@ jobs:
           command: curl -ks -u$DOCKER_USER:$DOCKER_PASS "https://d2lartifacts.jfrog.io/artifactory/api/npm/npm-local/auth/d2l" -o ~/project/.npmrc
 
       - run:
-          name: Start docker containers
-          command: docker-compose -f ./dev/docker-compose.yml up -d dynamodb
-
-      - run:
           name: Install dependencies and run tests
           command: |
+            export NVM_DIR="/opt/circleci/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+            [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+            nvm install 10
+            nvm alias default 10
             if [ ! -d node_modules ]; then
               npm ci
             fi
