@@ -15,9 +15,8 @@ jobs:
       - name: Checkout
         uses: Brightspace/third-party-actions@actions/checkout
 
-      - run:
-          name: Start docker containers
-          command: docker-compose -f ./dev/docker-compose.yml up -d dynamodb
+      - name: Start docker containers
+        run: docker-compose -f ./dev/docker-compose.yml up -d dynamodb
 
       - name: Setup Node
         uses: Brightspace/third-party-actions@actions/setup-node
@@ -25,13 +24,11 @@ jobs:
           node-version: 14
           cache: npm
 
-      - run:
-          name: Install Dependencies
-          command: npm ci
+        - name: Install Dependencies
+          run: npm ci
 
-      - run:
-          name: Run tests
-          command: npm run test
+        - name: Run tests
+          run: npm run test
 
   deploy:
     if: ${{ github.ref_name == 'master' }}
@@ -51,10 +48,9 @@ jobs:
           node-version: 14
           cache: npm
 
-      - run:
-        - name: Publish to npm public registry
+      - name: Publish to npm public registry
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        command: |
-          npm config set //registry.npmjs.org/:_authToken ${ NPM_TOKEN }
+        run: |
+          npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
           npm publish
