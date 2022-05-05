@@ -1,0 +1,65 @@
+name: Build and publish
+on: [push]
+version: 2
+jobs:
+  build:
+    runs-on: [self-hosted, Linux, AWS]
+    timeout-minutes: 10
+    steps:
+      - name: Persist Workspace
+        uses: Brightspace/third-party-actions@actions/cache
+        with:
+          path: |
+            ./*
+          key: worksapce-v1-${{ github.sha }}
+
+      - name: Checkout
+        uses: Brightspace/third-party-actions@actions/checkout
+
+      - run:
+          name: Authenticate with Artifactory
+          command: curl -ks -u$DOCKER_USER:$DOCKER_PASS "https://d2lartifacts.jfrog.io/artifactory/api/npm/npm-local/auth/d2l" -o ~/project/.npmrc
+
+      - run:
+          name: Start docker containers
+          command: docker-compose -f ./dev/docker-compose.yml up -d dynamodb
+
+      - name: Setup Node
+        uses: Brightspace/third-party-actions@actions/setup-node
+        with:
+          node-version: 14
+          cache: npm
+
+      - run:
+          name: Install Dependencies
+          command: npm ci
+
+      - run:
+          name: Run tests
+          command: npm ci
+
+  deploy:
+    if: ${{ github.ref_name == 'master' }}
+    runs-on: [self-hosted, Linux, AWS]
+    timeout-minutes: 10
+    steps:
+      - name: Persist Workspace
+        uses: Brightspace/third-party-actions@actions/cache
+        with:
+          path: |
+            ./*
+          key: worksapce-v1-${{ github.sha }}
+
+      - name: Setup node
+        uses: Brightspace/third-party-actions@actions/setup-node
+        with:
+          node-version: 14
+          cache: npm
+
+      - run:
+        - name: Publish to npm public registry
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        command: |
+          npm config set //registry.npmjs.org/:_authToken ${ NPM_TOKEN }
+          npm publish
