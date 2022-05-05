@@ -16,7 +16,8 @@ jobs:
         uses: Brightspace/third-party-actions@actions/checkout
 
       - name: Start docker containers
-        run: echo 'hello-world'
+        run: docker-compose -f ./dev/docker-compose.yml up -d dynamodb
+
 
       - name: Setup Node
         uses: Brightspace/third-party-actions@actions/setup-node
@@ -24,11 +25,11 @@ jobs:
           node-version: '14'
           cache: npm
 
-        - name: Install Dependencies
-          run: npm ci
+      - name: Install Dependencies
+        run: npm ci
 
-        - name: Run tests
-          run: npm run test
+      - name: Run tests
+        run: npm run test
 
   deploy:
     if: ${{ github.ref_name == 'master' }}
