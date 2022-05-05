@@ -1,6 +1,5 @@
 name: Build and publish
 on: [push]
-version: 2
 jobs:
   build:
     runs-on: [self-hosted, Linux, AWS]
@@ -15,10 +14,6 @@ jobs:
 
       - name: Checkout
         uses: Brightspace/third-party-actions@actions/checkout
-
-      - run:
-          name: Authenticate with Artifactory
-          command: curl -ks -u$DOCKER_USER:$DOCKER_PASS "https://d2lartifacts.jfrog.io/artifactory/api/npm/npm-local/auth/d2l" -o ~/project/.npmrc
 
       - run:
           name: Start docker containers
@@ -36,7 +31,7 @@ jobs:
 
       - run:
           name: Run tests
-          command: npm ci
+          command: npm run test
 
   deploy:
     if: ${{ github.ref_name == 'master' }}
