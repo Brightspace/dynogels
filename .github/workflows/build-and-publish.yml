@@ -16,7 +16,7 @@ jobs:
         uses: Brightspace/third-party-actions@actions/checkout
 
       - name: Start docker containers
-        run: docker-compose -f ./dev/docker-compose.yml up -d dynamodb
+        run: echo 'hello-world'
       - name: Setup Node
         uses: Brightspace/third-party-actions@actions/setup-node
         with:
