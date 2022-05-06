@@ -117,7 +117,7 @@ describe('item', () => {
       item.set({ array: [] });
       const setField = item.get('array');
       expect(setField).to.be.an('array');
-      expect(setField).to.be.have.length(0);
+      expect(setField).to.have.length(0);
     });
 
     it('should combine objects in array when setting array field', () => {
