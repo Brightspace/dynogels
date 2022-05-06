@@ -18,7 +18,6 @@ jobs:
       - name: setup-docker
         uses: docker-practice/actions-setup-docker@1.0.9
 
-
       - name: Start docker containers
         run: docker-compose -f ./dev/docker-compose.yml up -d dynamodb
 
