@@ -1,18 +1,8 @@
 name: Build and publish
 on: [push]
-env:
-  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  AWS_DEFAULT_REGION: us-east-1
-  AWS_DEFAULT_OUTPUT: json
-  GITHUB_ACTIONS_SHA: ${{ github.sha }}
-  GITHUB_ACTIONS_USERNAME: ${{ github.repository_owner }}
-  GITHUB_ACTIONS_RUN_NUMBER: ${{ github.run_number }}
-  GITHUB_ACTIONS_BRANCH: ${{ github.ref_name }}
-  GITHUB_ACTIONS_RUN_OFFSET: 100000
 jobs:
   build:
-    runs-on: [self-hosted, Linux, AWS]
+    runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - name: Persist Workspace
@@ -24,6 +14,10 @@ jobs:
 
       - name: Checkout
         uses: Brightspace/third-party-actions@actions/checkout
+
+      - name: setup-docker
+        uses: docker-practice/actions-setup-docker@1.0.9
+
 
       - name: Start docker containers
         run: docker-compose -f ./dev/docker-compose.yml up -d dynamodb
@@ -42,7 +36,7 @@ jobs:
 
   deploy:
     if: ${{ github.ref_name == 'master' }}
-    runs-on: [self-hosted, Linux, AWS]
+    runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - name: Persist Workspace
