@@ -24,8 +24,12 @@ Account.before('create', (data, next) => {
   next(null, data);
 });
 
-Account.before('update', (data, next) => {
-  data.age = 45;
+Account.before('update', (data, previousAttrs, next) => {
+  if (previousAttrs.age === 45) {
+    data.age = 50;
+  } else {
+    data.age = 45;
+  }
   next(null, data);
 });
 
@@ -51,10 +55,16 @@ dynogels.createTables((err) => {
   }
 
   Account.create({ email: 'test11@example.com' }, (err, acc) => {
-    acc.set({ age: 25 });
+    let previousAttrs = JSON.parse(JSON.stringify(acc.attrs));
+    acc.set({ age: 25 }); // becomes 45 after update
 
-    acc.update(() => {
-      acc.destroy({ ReturnValues: 'ALL_OLD' });
+    acc.update({ previousAttrs }, () => {
+      previousAttrs = JSON.parse(JSON.stringify(acc.attrs));
+      acc.set({ age: 30 }); // becomes 50 after update
+
+      acc.update({ previousAttrs }, () => {
+        acc.destroy({ ReturnValues: 'ALL_OLD' });
+      });
     });
   });
 });

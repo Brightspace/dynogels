@@ -438,6 +438,9 @@ Account.update(
 );
 ```
 
+You can also use `options.previousAttrs` to pass in item data from before modification. If it's defined, the before hook for "update" will
+receive that data as its second argument. See [the hooks examples file](examples/hooks.js) for more details.
+
 This is essentially short-hand for:
 ```js
 var params = {};
