@@ -2117,6 +2117,52 @@ describe('table', () => {
         table.update(item, () => { });
       });
 
+      it('should call before hook that takes previousAttrs', (done) => {
+        const config = {
+          hashKey: 'email',
+          schema: {
+            email: Joi.string(),
+            name: Joi.string(),
+            age: Joi.number()
+          }
+        };
+
+        const s = new Schema(config);
+
+        table = new Table('accounts', s, serializer, docClient, logger);
+
+        const item = { email: 'test@test.com', name: 'Tim Test', age: 23 };
+        const previousAttrs = JSON.parse(JSON.stringify(item));
+        docClient.update.yields(null, {});
+
+        serializer.serializeItem.withArgs(s, item).returns({});
+
+        serializer.buildKey.returns({ email: { S: 'test@test.com' } });
+        const modified = { email: 'test@test.com', name: 'Tim Test', age: 44 };
+        serializer.serializeItemForUpdate.withArgs(s, 'PUT', modified).returns({});
+
+        serializer.deserializeItem.returns(modified);
+        docClient.update.yields(null, {});
+
+        let called = false;
+        table.before('update', (data, previousAttrs, next) => {
+          if (previousAttrs.age === 23) {
+            const attrs = _.merge({}, data, { age: 44 });
+            called = true;
+            return next(null, attrs);
+          } else {
+            return next(new Error('previous attributes not passed in correctly'));
+          }
+        });
+
+        table.after('update', () => {
+          expect(called).to.be.true;
+          return done();
+        });
+
+        table.update(item, { previousAttrs }, () => { });
+      });
+
       it('should return error when before hook returns error', (done) => {
         const config = {
           hashKey: 'email',
