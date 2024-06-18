@@ -1,10 +1,10 @@
 'use strict';
 
-const serializer = require('../lib/serializer');
 const chai = require('chai');
+const Joi = require('joi');
+const serializer = require('../lib/serializer');
 const Schema = require('../lib/schema');
 const helper = require('./test-helper');
-const Joi = require('joi');
 
 const expect = chai.expect;
 
@@ -242,7 +242,6 @@ describe('Serializer', () => {
 
       item.should.eql({ age: 0 });
     });
-
 
     it('should serialize boolean attribute', () => {
       const config = {
@@ -500,7 +499,6 @@ describe('Serializer', () => {
       item.data.nicks.type.should.eql('String');
       item.data.nicks.values.should.eql(stringSet.values);
     });
-
 
     it('should return empty when serializing null value', () => {
       const config = {

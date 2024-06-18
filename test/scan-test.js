@@ -1,11 +1,11 @@
 'use strict';
 
-const helper = require('./test-helper');
-const Schema = require('../lib/schema');
-const Scan = require('../lib/scan');
 const _ = require('lodash');
 const chai = require('chai');
 const Joi = require('joi');
+const helper = require('./test-helper');
+const Schema = require('../lib/schema');
+const Scan = require('../lib/scan');
 
 const expect = chai.expect;
 
@@ -14,7 +14,7 @@ chai.should();
 const internals = {};
 
 internals.assertScanFilter = (scan, expected) => {
-  const conds = _.map(scan.request.ScanFilter, c => c.format());
+  const conds = _.map(scan.request.ScanFilter, (c) => c.format());
 
   if (!_.isArray(expected)) {
     expected = [expected];
@@ -116,7 +116,6 @@ describe('Scan', () => {
       scan.request.Limit.should.equal(10);
     });
 
-
     it('should throw when limit is zero', () => {
       const scan = new Scan(table, serializer);
       expect(() => {
@@ -188,7 +187,6 @@ describe('Scan', () => {
       scan.request.TotalSegments.should.eql(4);
     });
   });
-
 
   describe('#where', () => {
     let scan;
@@ -370,7 +368,6 @@ describe('Scan', () => {
       scan.options.loadAll.should.be.true;
     });
   });
-
 
   describe('#filterExpression', () => {
     it('should set filter expression', () => {

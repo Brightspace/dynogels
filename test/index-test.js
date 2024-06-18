@@ -1,12 +1,12 @@
 'use strict';
 
-const dynogels = require('../index');
 const AWS = require('aws-sdk');
-const helper = require('./test-helper');
-const Table = require('../lib/table');
 const chai = require('chai');
 const Joi = require('joi');
 const sinon = require('sinon');
+const Table = require('../lib/table');
+const helper = require('./test-helper');
+const dynogels = require('../index');
 
 const expect = chai.expect;
 
@@ -117,7 +117,6 @@ describe('dynogels', () => {
 
       Account.docClient.should.eq(docClient);
     });
-
 
     it('should globally set dynamodb driver for all models', () => {
       const Account = dynogels.define('Account', { hashKey: 'id' });

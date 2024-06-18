@@ -1,12 +1,12 @@
 'use strict';
 
+const chai = require('chai');
+const Joi = require('joi');
 const Item = require('../lib/item');
 const Table = require('../lib/table');
 const Schema = require('../lib/schema');
-const chai = require('chai');
 const helper = require('./test-helper');
 const serializer = require('../lib/serializer');
-const Joi = require('joi');
 
 const expect = chai.expect;
 
@@ -67,7 +67,6 @@ describe('item', () => {
         return done();
       });
     });
-
 
     it('should return error', (done) => {
       table.docClient.update.yields(new Error('fail'));
@@ -131,4 +130,3 @@ describe('item', () => {
     });
   });
 });
-

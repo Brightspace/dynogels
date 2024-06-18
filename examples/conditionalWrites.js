@@ -1,7 +1,7 @@
 'use strict';
 
-const dynogels = require('../index');
 const Joi = require('joi');
+const dynogels = require('../index');
 
 const AWS = dynogels.AWS;
 

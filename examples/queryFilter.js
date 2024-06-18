@@ -1,10 +1,10 @@
 'use strict';
 
-const dynogels = require('../index');
 const util = require('util');
 const _ = require('lodash');
 const Joi = require('joi');
 const async = require('async');
+const dynogels = require('../index');
 
 const AWS = dynogels.AWS;
 AWS.config.loadFromPath(`${process.env.HOME}/.ec2/credentials.json`);
@@ -25,7 +25,7 @@ const Account = dynogels.define('example-query-filter', {
   ]
 });
 
-const printResults = msg => (err, resp) => {
+const printResults = (msg) => (err, resp) => {
   console.log('----------------------------------------------------------------------');
   if (err) {
     console.log(`${msg} - Error running query`, err);
@@ -54,7 +54,6 @@ const loadSeedData = (callback) => {
 const runFilterQueries = () => {
   // Basic equals filter
   Account.query('Test 1').filter('age').equals(4).exec(printResults('Equals Filter'));
-
 
   // between filter
   Account.query('Test 1').filter('age').between(5, 10).exec(printResults('Between Filter'));

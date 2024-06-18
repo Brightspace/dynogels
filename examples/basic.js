@@ -1,9 +1,9 @@
 'use strict';
 
-const dynogels = require('../index');
 const _ = require('lodash');
 const util = require('util');
 const Joi = require('joi');
+const dynogels = require('../index');
 
 const AWS = dynogels.AWS;
 AWS.config.loadFromPath(`${process.env.HOME}/.ec2/credentials.json`);
@@ -38,7 +38,7 @@ const printScanResults = (err, data) => {
   if (err) {
     console.log('got scan error', err);
   } else if (data.Items) {
-    const items = _.map(data.Items, d => d.get());
+    const items = _.map(data.Items, (d) => d.get());
     console.log('scan finished, got ', util.inspect(items, { showHidden: false, depth: null }));
   } else {
     console.log('scan returned empty result set');

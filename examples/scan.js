@@ -1,10 +1,10 @@
 'use strict';
 
-const dynogels = require('../index');
 const util = require('util');
 const _ = require('lodash');
 const async = require('async');
 const Joi = require('joi');
+const dynogels = require('../index');
 
 const AWS = dynogels.AWS;
 AWS.config.loadFromPath(`${process.env.HOME}/.ec2/credentials.json`);
@@ -46,7 +46,6 @@ const loadSeedData = (callback) => {
     Account.create({ email: `test${n}@example.com`, name: `Test ${n % 3}`, age: n, scores: scores }, next);
   }, callback);
 };
-
 
 const runScans = () => {
   // Basic scan against table

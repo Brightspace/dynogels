@@ -1,9 +1,9 @@
 'use strict';
 
-const expressions = require('../lib/expressions');
 const chai = require('chai');
-const Schema = require('../lib/schema');
 const Joi = require('joi');
+const expressions = require('../lib/expressions');
+const Schema = require('../lib/schema');
 
 const expect = chai.expect;
 
@@ -54,7 +54,6 @@ describe('expressions', () => {
         DELETE: null
       });
     });
-
 
     it('should parse DELETE action', () => {
       const out = expressions.parse('DELETE color :c');

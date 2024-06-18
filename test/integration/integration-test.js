@@ -1,12 +1,12 @@
 'use strict';
 
-const dynogels = require('../../index');
 const chai = require('chai');
 const async = require('async');
 const _ = require('lodash');
-const helper = require('../test-helper');
 const uuid = require('uuid');
 const Joi = require('joi');
+const helper = require('../test-helper');
+const dynogels = require('../../index');
 
 const expect = chai.expect;
 
@@ -18,7 +18,7 @@ let Movie;
 let DynamicKeyModel;
 const internals = {};
 
-internals.userId = n => `userid-${n}`;
+internals.userId = (n) => `userid-${n}`;
 
 internals.loadSeedData = (callback) => {
   callback = callback || _.noop;
@@ -762,7 +762,6 @@ describe('Dynogels Integration Tests', function () {
     });
   });
 
-
   describe('#scan', () => {
     it('should return all users', (done) => {
       User.scan().loadAll().exec((err, data) => {
@@ -1038,7 +1037,6 @@ describe('Dynogels Integration Tests', function () {
     });
   });
 
-
   describe('timestamps', () => {
     let Model;
     let ModelCustomTimestamps;
@@ -1061,7 +1059,6 @@ describe('Dynogels Integration Tests', function () {
           id: Joi.string()
         }
       });
-
 
       return dynogels.createTables(done);
     });
@@ -1182,7 +1179,6 @@ describe('Dynogels Integration Tests', function () {
     });
   });
 
-
   describe('model methods', () => {
     it('#save with passed in attributes', (done) => {
       const t = new Tweet({
@@ -1246,7 +1242,6 @@ describe('Dynogels Integration Tests', function () {
         return done();
       });
     });
-
 
     it('#destroy with callback', (done) => {
       Tweet.create({ UserId: 'tester-2', content: 'update test tweet' }, (err, tweet) => {

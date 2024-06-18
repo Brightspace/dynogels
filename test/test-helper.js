@@ -2,8 +2,8 @@
 
 const sinon = require('sinon');
 const AWS = require('aws-sdk');
-const Table = require('../lib/table');
 const _ = require('lodash');
+const Table = require('../lib/table');
 
 exports.mockDynamoDB = () => {
   const opts = { endpoint: 'http://localhost:4567', apiVersion: '2012-08-10' };
@@ -86,7 +86,7 @@ exports.fakeUUID = () => {
   return uuid;
 };
 
-exports.randomName = prefix => `${prefix}_${Date.now()}.${_.random(1000)}`;
+exports.randomName = (prefix) => `${prefix}_${Date.now()}.${_.random(1000)}`;
 
 exports.testLogger = () => ({
   info: () => null,
