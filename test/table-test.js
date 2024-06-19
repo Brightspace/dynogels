@@ -555,7 +555,7 @@ describe('table', () => {
       const config = {
         hashKey: 'email',
         schema: {
-          email: Joi.string().email({ errorLevel: true }).required(),
+          email: Joi.string().email().required(),
           custom: Joi.any().forbidden().error(new Error('Only hashed passwords should be persisted')),
         }
       };
@@ -2349,7 +2349,7 @@ describe('table', () => {
       const attrs = {};
 
       const result = helper(config, attrs);
-      expect(result.error).to.be.null;
+      expect(result.error).to.be.undefined;
     });
 
     it('should succeed with required items', () => {
@@ -2362,7 +2362,7 @@ describe('table', () => {
       const attrs = { email: 'test@email.com' };
 
       const result = helper(config, attrs);
-      expect(result.error).to.be.null;
+      expect(result.error).to.be.undefined;
     });
 
     it('should fail when missing required string field', () => {
@@ -2375,7 +2375,7 @@ describe('table', () => {
       const attrs = {};
 
       const result = helper(config, attrs);
-      expect(result.error).to.not.be.null;
+      expect(result.error).to.not.be.undefined;
       expect(result.error.name).to.eql('ValidationError');
     });
 
@@ -2389,7 +2389,7 @@ describe('table', () => {
       const attrs = { email: 123 };
 
       const result = helper(config, attrs);
-      expect(result.error).to.not.be.null;
+      expect(result.error).to.not.be.undefined;
       expect(result.error.name).to.eql('ValidationError');
     });
 
@@ -2403,7 +2403,7 @@ describe('table', () => {
       const attrs = { phone: 123 };
 
       const result = helper(config, attrs);
-      expect(result.error).to.not.be.null;
+      expect(result.error).to.not.be.undefined;
       expect(result.error.name).to.eql('ValidationError');
     });
   });
