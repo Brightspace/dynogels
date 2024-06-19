@@ -10,9 +10,7 @@ const expect = chai.expect;
 
 chai.should();
 
-describe('Create Tables Integration Tests', function () {
-  this.timeout(0);
-
+describe('Create Tables Integration Tests', () => {
   before(() => {
     dynogels.dynamoDriver(helper.realDynamoDB());
   });
@@ -358,8 +356,7 @@ describe('Create Tables Integration Tests', function () {
   });
 });
 
-describe('Update Tables Integration Tests', function () {
-  this.timeout(0);
+describe('Update Tables Integration Tests', () => {
   let Tweet;
   let tableName;
 

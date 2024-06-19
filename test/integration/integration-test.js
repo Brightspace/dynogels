@@ -72,9 +72,7 @@ internals.loadSeedData = (callback) => {
   ], callback);
 };
 
-describe('Dynogels Integration Tests', function () {
-  this.timeout(0);
-
+describe('Dynogels Integration Tests', () => {
   before((done) => {
     dynogels.dynamoDriver(helper.realDynamoDB());
 
