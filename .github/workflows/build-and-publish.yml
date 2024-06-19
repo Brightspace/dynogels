@@ -25,7 +25,7 @@ jobs:
             ${{ runner.os }}-node-
 
       - name: setup-docker
-        uses: docker-practice/actions-setup-docker@1.0.9
+        uses: docker-practice/actions-setup-docker@master
 
       - name: Start docker containers
         run: docker-compose -f ./dev/docker-compose.yml up -d dynamodb
