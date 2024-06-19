@@ -1,5 +1,5 @@
 # @d2l/dynogels
-[![CircleCI](https://circleci.com/gh/Brightspace/dynogels.svg?style=svg)](https://circleci.com/gh/Brightspace/dynogels)
+![build-and-publish workflow](https://github.com/Brightspace/dynogels/actions/workflows/build-and-publish.yml/badge.svg)
 
 Dynogels is a [DynamoDB][5] data mapper for [node.js][1]. This project has been forked from
 [Vogels](https://github.com/ryanfitz/vogels) and republished to npm under a different name.
